@@ -1,12 +1,26 @@
+import { Link, NavLink } from "react-router";
 import logo from "../../assets/icons8-books-48.png"
 
 const Navbar = () => {
     return (
-        <nav className="max-w-7xl mx-auto h-16 flex items-center gap-3 px-5 border">
-            <div className="text-xl flex items-center font-semibold">
+        <nav className="max-w-7xl mx-auto h-16 flex items-center justify-between gap-3 px-5 border">
+            <Link to={"/"} className="text-xl flex items-center font-semibold mr-auto">
                 <img src={logo} alt="" />
                 Library Management
-            </div>
+            </Link>
+            <NavLink to={"/allBook"}
+                className={({ isActive }) => `${isActive ? "underline underline-offset-2" : ""} hover:underline underline-offset-2`}>
+                All Book
+            </NavLink>
+            <NavLink
+                to={"/addBook"}
+                className={({ isActive }) => `${isActive ? "underline underline-offset-2" : ""} hover:underline underline-offset-2`}>
+                Add Book
+            </NavLink>
+            <NavLink to={"/borrowSummary"}
+                className={({ isActive }) => `${isActive ? "underline underline-offset-2" : ""} hover:underline underline-offset-2`}>
+                Borrow Summary
+            </NavLink>
         </nav>
     );
 };
