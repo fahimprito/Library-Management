@@ -15,15 +15,15 @@ const router = createBrowserRouter([
         Component: Home
       },
       {
-        path: "/allBook",
+        path: "/books",
         Component: AllBooks
       },
       {
-        path: "/addBook",
+        path: "/create-book",
         Component: AddBook
       },
       {
-        path: "/borrowSummary",
+        path: "/borrow-summary",
         Component: BorrowSummary
       },
     ]

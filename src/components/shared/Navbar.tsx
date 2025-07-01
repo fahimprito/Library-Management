@@ -8,16 +8,16 @@ const Navbar = () => {
                 <img src={logo} alt="" />
                 Library Management
             </Link>
-            <NavLink to={"/allBook"}
+            <NavLink to={"/books"}
                 className={({ isActive }) => `${isActive ? "underline underline-offset-2" : ""} hover:underline underline-offset-2`}>
                 All Book
             </NavLink>
             <NavLink
-                to={"/addBook"}
+                to={"/create-book"}
                 className={({ isActive }) => `${isActive ? "underline underline-offset-2" : ""} hover:underline underline-offset-2`}>
                 Add Book
             </NavLink>
-            <NavLink to={"/borrowSummary"}
+            <NavLink to={"/borrow-summary"}
                 className={({ isActive }) => `${isActive ? "underline underline-offset-2" : ""} hover:underline underline-offset-2`}>
                 Borrow Summary
             </NavLink>
