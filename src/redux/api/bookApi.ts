@@ -5,7 +5,7 @@ export const bookApi = createApi({
     reducerPath: 'bookApi',
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api' }),
     tagTypes: ['Book'],
-    
+
     endpoints: (builder) => ({
         getBooks: builder.query<Book[], void>({
             query: () => '/books',
@@ -13,7 +13,16 @@ export const bookApi = createApi({
             providesTags: ['Book'],
         }),
 
+        addBook: builder.mutation({
+            query: (newBook) => ({
+                url: '/books',
+                method: 'POST',
+                body: newBook,
+            }),
+            invalidatesTags: ['Book'],
+        }),
+
     }),
 });
 
-export const { useGetBooksQuery } = bookApi;
+export const { useGetBooksQuery, useAddBookMutation } = bookApi;

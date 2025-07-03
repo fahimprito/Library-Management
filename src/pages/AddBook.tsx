@@ -3,6 +3,9 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import type { Genre } from "@/types/book";
+import { useAddBookMutation } from "@/redux/api/bookApi";
+import Swal from 'sweetalert2'
+import { useNavigate } from "react-router";
 
 
 interface AddBookFormValues {
@@ -15,12 +18,32 @@ interface AddBookFormValues {
 }
 
 const AddBook = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm<AddBookFormValues>();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<AddBookFormValues>();
+    const navigate = useNavigate();
+    const [addBook, { isLoading }] = useAddBookMutation();
 
-    const onSubmit = (data: AddBookFormValues) => {
-        console.log(data);
-
-
+    const onSubmit = async (data: AddBookFormValues) => {
+        try {
+            const res = await addBook(data).unwrap();
+            if (res.success) {
+                Swal.fire({
+                    title: "Success!",
+                    text: res.message || "Book added successfully",
+                    icon: "success",
+                    confirmButtonColor: "#10B981",
+                });
+                reset();
+                navigate("/books");
+            }
+        } catch (error) {
+            const message = (error as { data?: { message?: string } })?.data?.message || "Failed to add book.";
+            Swal.fire({
+                title: "Error",
+                text: message,
+                icon: "error",
+                confirmButtonColor: "#EF4444",
+            });
+        }
     };
 
     return (
@@ -111,7 +134,9 @@ const AddBook = () => {
                         )}
                     </div>
 
-                    <Button variant={"outline"} type="submit" className=" border-black text-green-700">Submit</Button>
+                    <Button variant={"outline"} type="submit" className=" border-black text-green-700">
+                        {isLoading ? "Submitting..." : "Submit"}
+                    </Button>
                 </form>
 
             </div>
