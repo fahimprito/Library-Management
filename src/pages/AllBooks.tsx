@@ -1,9 +1,46 @@
 import { Button } from '@/components/ui/button';
-import { useGetBooksQuery } from '@/redux/api/bookApi';
+import { useDeleteBookMutation, useGetBooksQuery } from '@/redux/api/bookApi';
 import type { Book } from '@/types/book';
+import Swal from 'sweetalert2';
 
 const AllBooks = () => {
     const { data: books, isLoading, isError } = useGetBooksQuery();
+    const [deleteBook] = useDeleteBookMutation();
+
+    const handleDelete = async (id: string) => {
+        const result = await Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won’t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#6B7280',
+            confirmButtonText: 'Yes, delete it!',
+        });
+        // console.log(result);
+        if (result.isConfirmed) {
+            try {
+                const res = await deleteBook(id).unwrap();
+                Swal.fire({
+                    title: 'Deleted!',
+                    text: res?.message || 'Book has been deleted.',
+                    icon: 'success',
+                    confirmButtonColor: '#10B981',
+                    timer: 1600,
+                    showConfirmButton: false,
+                });
+            } catch (error) {
+                const message = (error as { data?: { message?: string } })?.data?.message || 'Failed to delete book.';
+                Swal.fire({
+                    title: 'Error!',
+                    text: message,
+                    icon: 'error',
+                    confirmButtonColor: '#EF4444',
+                });
+            }
+        }
+
+    }
 
     return (
         <div className="container mx-auto p-6">
@@ -50,6 +87,7 @@ const AllBooks = () => {
                                         <Button variant="outline" className="text-blue-600 hover:underline">Edit</Button>
                                         <Button
                                             variant="outline"
+                                            onClick={() => handleDelete(book._id)}
                                             className="text-red-600 hover:underline">
                                             Delete
                                         </Button>
