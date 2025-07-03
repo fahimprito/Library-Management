@@ -30,7 +30,16 @@ export const bookApi = createApi({
             invalidatesTags: ["Book"],
         }),
 
+        updateBook: builder.mutation<{ success: boolean; message: string; data: Book }, { id: string; payload: Partial<Book> }>({
+            query: ({ id, payload }) => ({
+                url: `/books/${id}`,
+                method: "PATCH",
+                body: payload,
+            }),
+            invalidatesTags: ["Book"],
+        }),
+
     }),
 });
 
-export const { useGetBooksQuery, useAddBookMutation, useDeleteBookMutation } = bookApi;
+export const { useGetBooksQuery, useAddBookMutation, useDeleteBookMutation, useUpdateBookMutation } = bookApi;

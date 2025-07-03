@@ -1,3 +1,4 @@
+import EditBookModal from '@/components/shared/EditBookModal';
 import { Button } from '@/components/ui/button';
 import { useDeleteBookMutation, useGetBooksQuery } from '@/redux/api/bookApi';
 import type { Book } from '@/types/book';
@@ -84,7 +85,8 @@ const AllBooks = () => {
                                         </span>
                                     </td>
                                     <td className="px-4 py-2 space-x-2">
-                                        <Button variant="outline" className="text-blue-600 hover:underline">Edit</Button>
+                                        <EditBookModal book={book} />
+                                        <Button variant="outline" className="text-amber-500 hover:underline">Borrow</Button>
                                         <Button
                                             variant="outline"
                                             onClick={() => handleDelete(book._id)}
