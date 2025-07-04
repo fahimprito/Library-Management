@@ -34,7 +34,7 @@ const BorrowBookModal = ({ book }: BorrowBookModalProps) => {
     const navigate = useNavigate();
 
     const onSubmit = async (data: BorrowFormValues) => {
-        console.log(data);
+        // console.log(data);
         
         try {
             const res = await borrowBook({

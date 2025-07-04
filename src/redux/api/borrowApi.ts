@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { Borrow } from "@/types/borrow";
+import type { Borrow, BorrowSummary } from "@/types/borrow";
 
 interface BorrowRequest {
     book: string;
@@ -18,7 +18,7 @@ export const borrowApi = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api" }),
     tagTypes: ["Borrow", "Book"],
     endpoints: (builder) => ({
-        
+
         borrowBook: builder.mutation<BorrowResponse, BorrowRequest>({
             query: (body) => ({
                 url: "/borrow",
@@ -28,8 +28,13 @@ export const borrowApi = createApi({
             invalidatesTags: ["Book", "Borrow"],
         }),
 
+        getBorrowSummary: builder.query<BorrowSummary[], void>({
+            query: () => "/borrow",
+            transformResponse: (response: { success: boolean; message: string; data: BorrowSummary[] }) => response.data,
+            providesTags: ["Borrow"],
+        }),
 
     }),
 });
 
-export const { useBorrowBookMutation } = borrowApi;
+export const { useBorrowBookMutation, useGetBorrowSummaryQuery } = borrowApi;

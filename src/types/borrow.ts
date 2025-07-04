@@ -7,3 +7,12 @@ export interface Borrow {
     createdAt: string;
     updatedAt: string;
 }
+
+
+export interface BorrowSummary {
+    book: {
+        title: string;
+        isbn: string;
+    };
+    totalQuantity: number;
+}

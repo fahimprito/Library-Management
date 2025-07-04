@@ -58,7 +58,7 @@ const AllBooks = () => {
             {!isLoading && books && (
                 <div className="overflow-x-auto">
                     <table className="min-w-full bg-white shadow-md rounded-lg">
-                        <thead className="bg-gray-100 text-gray-700 text-sm">
+                        <thead className="bg-orange-100 text-gray-700 text-sm">
                             <tr>
                                 <th className="px-4 py-2 text-left">Title</th>
                                 <th className="px-4 py-2 text-left">Author</th>
