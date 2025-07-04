@@ -9,7 +9,7 @@ export interface Borrow {
 }
 
 
-export interface BorrowSummary {
+export interface IBorrowSummary {
     book: {
         title: string;
         isbn: string;

@@ -2,11 +2,14 @@ import BorrowBookModal from '@/components/shared/BorrowBookModal';
 import EditBookModal from '@/components/shared/EditBookModal';
 import { Button } from '@/components/ui/button';
 import { useDeleteBookMutation, useGetBooksQuery } from '@/redux/api/bookApi';
+import { useGetBorrowSummaryQuery } from '@/redux/api/borrowApi';
 import type { Book } from '@/types/book';
+import { Link } from 'react-router';
 import Swal from 'sweetalert2';
 
 const AllBooks = () => {
     const { data: books, isLoading, isError } = useGetBooksQuery();
+    const { refetch } = useGetBorrowSummaryQuery();
     const [deleteBook] = useDeleteBookMutation();
 
     const handleDelete = async (id: string) => {
@@ -23,6 +26,7 @@ const AllBooks = () => {
         if (result.isConfirmed) {
             try {
                 const res = await deleteBook(id).unwrap();
+                await refetch();
                 Swal.fire({
                     title: 'Deleted!',
                     text: res?.message || 'Book has been deleted.',
@@ -72,7 +76,11 @@ const AllBooks = () => {
                         <tbody className="text-sm divide-y divide-gray-200">
                             {books.map((book: Book) => (
                                 <tr key={book._id}>
-                                    <td className="px-4 py-2">{book.title}</td>
+                                    <td className="px-4 py-2 hover:bg-amber-100 hover:underline">
+                                        <Link to={`/books/${book._id}`}>
+                                            {book.title}
+                                        </Link>
+                                    </td>
                                     <td className="px-4 py-2">{book.author}</td>
                                     <td className="px-4 py-2">{book.genre}</td>
                                     <td className="px-4 py-2">{book.isbn}</td>
