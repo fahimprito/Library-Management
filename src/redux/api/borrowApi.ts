@@ -15,7 +15,10 @@ interface BorrowResponse {
 
 export const borrowApi = createApi({
     reducerPath: "borrowApi",
-    baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api" }),
+    baseQuery: fetchBaseQuery({
+        // baseUrl: 'http://localhost:5000/api',
+        baseUrl: 'https://library-management-api-ten-delta.vercel.app/api',
+    }),
     tagTypes: ["Borrow", "Book"],
     endpoints: (builder) => ({
 
