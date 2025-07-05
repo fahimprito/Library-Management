@@ -16,6 +16,7 @@ import type { Book, Genre } from "@/types/book";
 import { useUpdateBookMutation } from "@/redux/api/bookApi";
 import Swal from "sweetalert2";
 import { useEffect } from "react";
+import { useGetBorrowSummaryQuery } from "@/redux/api/borrowApi";
 
 interface EditBookModalProps {
     book: Book;
@@ -32,6 +33,7 @@ interface EditFormInputs {
 
 const EditBookModal = ({ book }: EditBookModalProps) => {
     const { register, handleSubmit, setValue, formState: { errors } } = useForm<EditFormInputs>();
+    const { refetch } = useGetBorrowSummaryQuery();
     const [updateBook, { isLoading }] = useUpdateBookMutation();
 
     useEffect(() => {
@@ -51,6 +53,7 @@ const EditBookModal = ({ book }: EditBookModalProps) => {
 
         try {
             const res = await updateBook({ id: book._id, payload: updated }).unwrap();
+            await refetch();
             Swal.fire({
                 title: "Success!",
                 text: res.message || "Book updated successfully.",
